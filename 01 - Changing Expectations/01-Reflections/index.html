@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    <script>
+        var counter = 0;
+
+        window.onload = function () {
+            var counterElem = document.getElementById('counter-elem');
+
+            var catElem = document.getElementById('cat-elem');
+            catElem.addEventListener('click', function () {
+                counter++;
+                counterElem.innerHTML = counter;
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+    <img id="cat-elem" src="cat.jpg">
+    <h1>
+        Clicks:
+        <span id="counter-elem">0</span>
+    </h1>
+</body>
+
+</html>
