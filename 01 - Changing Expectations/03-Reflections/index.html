@@ -1,0 +1,121 @@
+<html>
+
+<head>
+    <script>
+
+        //global variables declaration
+        var amount = 3;
+        var prefix = "cat";
+        var separator = "-";
+        var extension = ".jpg";
+        var clicksMsg = "Clicks: ";
+
+        var list;
+        var display;
+
+        //Auxiliar function
+        function removeAllChilds(node) {
+            //https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+            while (node.firstChild) {
+                node.removeChild(node.firstChild);
+            }
+        }
+
+        //Click event handler
+        function doClick(name) {
+            var counter = document.getElementById(name + "-item").getAttribute("counter");
+            counter++;
+            document.getElementById(name + "-item").setAttribute("counter", counter);
+
+            var span = document.getElementById(name + "span-counter");
+            span.innerText = clicksMsg + counter;
+        }
+
+        //composes the title
+        function getImageTitle(name) {
+            var div = document.createElement("div");
+            div.setAttribute("name", "title");
+
+            var h1 = document.createElement("h1");
+            h1.setAttribute("id", name + "-title");
+            h1.innerText = name;
+
+            var span = document.createElement("span");
+            span.setAttribute("id", name + "span-counter");
+            span.innerText = clicksMsg + document.getElementById(name + "-item").getAttribute("counter");;
+
+            div.appendChild(h1);
+            div.appendChild(span);
+
+            return div;
+        }
+
+        //composes the image
+        function getImageElement(name) {
+            var file = name + extension;
+
+            var img = document.createElement("img");
+            img.setAttribute("src", file);
+
+            return img;
+        }
+
+        //creates an images plus click event
+        function getClickableImage(name) {
+            var img = getImageElement(name);
+
+            img.addEventListener('click', function () {
+                doClick(name);
+            });
+
+            return img;
+        }
+
+        //Composes the display view
+        function setDisplay(name) {
+            var img = getClickableImage(name);
+            var title = getImageTitle(name);
+
+            display.appendChild(title);
+            display.appendChild(img);
+        }
+
+        //Creates the full item
+        function getItem(name) {
+            var li = document.createElement("li");
+            li.innerText = name;
+
+            li.setAttribute("id", name + "-item");
+            li.setAttribute("counter", 0);
+
+            li.addEventListener('click', function () {
+                removeAllChilds(display);
+                setDisplay(name);
+            });
+
+            return li;
+        }
+
+        //load all items
+        window.onload = function () {
+            list = document.createElement("ol");
+            display = document.createElement("div");
+            display.setAttribute("id", "display");
+
+            for (i = 0; i < amount; i++) {
+                var name = prefix + separator + (i + 1);
+                var item = getItem(name);
+                list.appendChild(item);
+            }
+
+            document.body.appendChild(list);
+            document.body.appendChild(display);
+        }
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
