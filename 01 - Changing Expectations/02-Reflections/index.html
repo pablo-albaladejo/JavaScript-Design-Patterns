@@ -1,0 +1,89 @@
+<html>
+
+<head>
+    <script>
+        
+        //global variables declaration
+        var amount = 2;
+        var prefix = "cat";
+        var separator = "-";
+        var extension = ".jpg";
+        var clicksMsg = "Clicks: ";
+
+        //get the whole image element
+        function addPicture(name) {
+
+            var div = document.createElement("div");
+
+            var img = getClickableImage(name);
+            var title = getImageTitle(name);
+
+            div.appendChild(title);
+            div.appendChild(img);
+
+            document.body.appendChild(div);
+        }
+
+        //composes the title
+        function getImageTitle(name) {
+            var div = document.createElement("div");
+
+            var h1 = document.createElement("h1");
+            h1.setAttribute("id", name + "-title");
+            h1.innerText = name;
+
+            var span = document.createElement("span");
+            span.setAttribute("id", name + "-counter");
+            span.setAttribute("value", 0);
+            span.innerText = clicksMsg + "0";
+
+            div.appendChild(h1);
+            div.appendChild(span);
+
+            return div;
+        }
+
+        //composes the image
+        function getImageElement(name) {
+            var file = name + extension;
+
+            var img = document.createElement("img");
+            img.setAttribute("id", name);
+            img.setAttribute("counterValue", 0);
+            img.setAttribute("src", file);
+
+            return img;
+        }
+
+        //creates an images plus click event
+        function getClickableImage(name) {
+            var img = getImageElement(name);
+
+            img.addEventListener('click', function (event) {
+                var id = event.toElement.getAttribute("id");
+                var spanCounter = document.getElementById(id + "-counter");
+                var counter = spanCounter.getAttribute("value");
+
+                counter++;
+                spanCounter.setAttribute("value", counter)
+                spanCounter.innerText = clicksMsg + counter;
+            });
+
+            return img;
+        }
+
+        //load all pictures
+        window.onload = function () {
+            for (i = 0; i < amount; i++) {
+                var name = prefix + separator + (i + 1);
+                addPicture(name);
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
